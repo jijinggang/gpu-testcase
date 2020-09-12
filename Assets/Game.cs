@@ -51,8 +51,8 @@ public class Game : MonoBehaviour
 
     int[] IMAGE_SIZES = { 256, 512, 1024 };
     int[] OUTPUT_SIZES = { 256, 512, 1024 };
-    TextureFormat[] IMAGE_FORMATS = { TextureFormat.ARGB4444, TextureFormat.ARGB32, TextureFormat.ASTC_6x6, TextureFormat.ASTC_8x8 , TextureFormat.ASTC_HDR_8x8};
-    string[] IMAGE_FORMATS_STR = { "ARGB4444","ARGB32", "ASTC_6x6", "ASTC_8x8","ASTC_HDR_8x8" };
+    TextureFormat[] IMAGE_FORMATS = { TextureFormat.ARGB4444, TextureFormat.ARGB32, TextureFormat.ASTC_4x4, TextureFormat.ASTC_6x6, TextureFormat.ASTC_8x8 , TextureFormat.ASTC_HDR_8x8};
+    string[] IMAGE_FORMATS_STR = { "ARGB4444","ARGB32", "ASTC_4x4", "ASTC_6x6", "ASTC_8x8","ASTC_HDR_8x8" };
 
     private void CreateObjects(int imageSize, int outputSize, TextureFormat format)
     {
