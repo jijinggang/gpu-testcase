@@ -21,6 +21,7 @@ public class Game : MonoBehaviour
     private Rect rectStatus = new Rect(0, 80, 300, 50);
     void Start()
     {
+        Application.targetFrameRate = 60;
         prefab512 = Resources.Load<GameObject>("512");
 
         //        style.fontSize = 20;
@@ -73,8 +74,10 @@ public class Game : MonoBehaviour
             //texture.SetPixels32(COLORS);
             go = GameObject.Instantiate(prefab512);
             var sp = go.GetComponent<SpriteRenderer>();
-            Sprite spt = Sprite.Create(texture, new Rect(0, 0, outputSize, outputSize), new Vector2(0.5f, 0.5f));
+            Sprite spt = Sprite.Create(texture, new Rect(0, 0, imageSize, imageSize), new Vector2(0.5f, 0.5f));
             sp.sprite = spt;
+            float scale = 1.0f* outputSize / imageSize;
+            sp.transform.localScale = new Vector3(scale, scale, 1);            
 
 
             go.transform.Translate(0, 0, z);
