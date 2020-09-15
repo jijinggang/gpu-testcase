@@ -63,13 +63,25 @@ public class CommandBufferTest : MonoBehaviour
     private Rect r1 = new Rect(0, 200, 200, 80);
     private Rect r2 = new Rect(200, 200, 200, 80);
     int[] Blit_Count = { 0, 1, 2, 4, 10, 100 };
+    int[] For_Count = { 0, 100, 1000, 10000 };
 
     private int blit_count_index = 0;
+    private int for_count_index = 0;
     void OnGUI()
     {
         GUI.skin.button.fontSize = 20;
         GUI.skin.label.fontSize = 20;
         var writeBand = Screen.width * Screen.height * 4f / (1 << 20);
+
+        if (GUI.Button(r1, "For" + For_Count[for_count_index]))
+        {
+            for_count_index = (for_count_index + 1) % For_Count.Length;
+            for (int j = 0; j < For_Count.Length; j++)
+            {
+                Shader.DisableKeyword("_ALU" + For_Count[j]);
+            }
+            Shader.EnableKeyword("_ALU" + For_Count[for_count_index]);
+        }
 
         if (GUI.Button(r2, "" + writeBand * Blit_Count[blit_count_index] + "MB"))
         {

@@ -16,6 +16,7 @@
             #pragma fragment frag
             // make fog work
             #pragma multi_compile_fog
+            #pragma multi_compile _ _ALU100 _ALU1000 _ALU10000
 
             #include "UnityCG.cginc"
 
@@ -56,6 +57,27 @@
                 // sample the texture
                 // fixed4 col = tex2D(_MainTex, i.uv);
                 float4 c = hash12(i.uv * _ScreenParams.xy + _Time.xy);
+                #if _ALU100
+                for( int k = 0; k < 100; ++k)
+                #elif _ALU1000
+                for( int k = 0; k < 1000; ++k)
+                #elif _ALU10000
+                for( int k = 0; k < 10000; ++k)
+                #endif
+                {
+                    float c2 = hash12(i.uv * _ScreenParams.xy + _Time.xy);
+                    float c3 = hash12(i.uv * _ScreenParams.xy + _Time.xx);
+                    float c4 = hash12(i.uv * _ScreenParams.xy + _Time.xx + half2(0.1, 2));
+                    c += pow(c, c2);
+                    c -= sin(c * c3) * 0.8;
+                }
+                #if _ALU100
+                c /= 100;
+                #elif _ALU1000
+                c /= 1000;
+                #elif _ALU10000
+                c /= 10000;
+                #endif
                 c.a = 0.1;
                 // apply fog
                 // UNITY_APPLY_FOG(i.fogCoord, col);
