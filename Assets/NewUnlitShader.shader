@@ -58,11 +58,11 @@
                 // fixed4 col = tex2D(_MainTex, i.uv);
                 float4 c = hash12(i.uv * _ScreenParams.xy + _Time.xy);
                 #if _ALU100
-                for( int k = 0; k < 100; ++k)
+                for( int k = 0; k < 10; ++k)
                 #elif _ALU1000
-                for( int k = 0; k < 1000; ++k)
+                for( int k = 0; k < 20; ++k)
                 #elif _ALU10000
-                for( int k = 0; k < 10000; ++k)
+                for( int k = 0; k < 40; ++k)
                 #endif
                 {
                     float c2 = hash12(i.uv * _ScreenParams.xy + _Time.xy);
@@ -72,11 +72,11 @@
                     c -= sin(c * c3) * 0.8;
                 }
                 #if _ALU100
-                c /= 100;
+                c /= 10;
                 #elif _ALU1000
-                c /= 1000;
+                c /= 20;
                 #elif _ALU10000
-                c /= 10000;
+                c /= 40;
                 #endif
                 c.a = 0.1;
                 // apply fog

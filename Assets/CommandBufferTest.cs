@@ -63,7 +63,8 @@ public class CommandBufferTest : MonoBehaviour
     private Rect r1 = new Rect(0, 200, 200, 80);
     private Rect r2 = new Rect(200, 200, 200, 80);
     int[] Blit_Count = { 0, 1, 2, 4, 10, 100 };
-    int[] For_Count = { 0, 100, 1000, 10000 };
+    int[] For_Count = { 0, 10, 20, 40 };
+    int[] For_Count_KEY = { 0, 100, 1000, 10000 };
 
     private int blit_count_index = 0;
     private int for_count_index = 0;
@@ -78,9 +79,9 @@ public class CommandBufferTest : MonoBehaviour
             for_count_index = (for_count_index + 1) % For_Count.Length;
             for (int j = 0; j < For_Count.Length; j++)
             {
-                Shader.DisableKeyword("_ALU" + For_Count[j]);
+                Shader.DisableKeyword("_ALU" + For_Count_KEY[j]);
             }
-            Shader.EnableKeyword("_ALU" + For_Count[for_count_index]);
+            Shader.EnableKeyword("_ALU" + For_Count_KEY[for_count_index]);
         }
 
         if (GUI.Button(r2, "" + writeBand * Blit_Count[blit_count_index] + "MB"))
