@@ -61,16 +61,24 @@ public class Game : MonoBehaviour
 
         for (int i = 0; i < COLORS.Length; i++)
         {
-            COLORS[i] = COLOR;
+            byte r = (byte)Random.Range(0, 255);
+            COLORS[i] = new Color32(r, 0, 0, 10);
         }
 
 
         float z = 0f;
         for (int i = 0; i < 100; i++)
         {
+            COLORS[0].r = (byte)Random.Range(0, 255);
+            COLORS[0].g = (byte)Random.Range(0, 255);
+
             GameObject go = null;
             var texture = new Texture2D(imageSize, imageSize, format, false);
-            
+            if(format == TextureFormat.ARGB32)
+            {
+                texture.SetPixels32(COLORS);
+                texture.Apply();
+            }
             //texture.SetPixels32(COLORS);
             go = GameObject.Instantiate(prefab512);
             var sp = go.GetComponent<SpriteRenderer>();
