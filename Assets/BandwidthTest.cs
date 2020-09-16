@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Game : MonoBehaviour
+public class BandwidthTest : MonoBehaviour
 {
 
     // Start is called before the first frame update
@@ -105,8 +105,6 @@ public class Game : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.skin.button.fontSize = 20;
-        GUI.skin.label.fontSize = 20;
         if (GUI.Button(rectBtnImage, "图片:" + IMAGE_SIZES[image_index]))
         {
             image_index = (image_index + 1) % IMAGE_SIZES.Length;
@@ -129,6 +127,7 @@ public class Game : MonoBehaviour
         {
             Clear();
         }
+
 
         string status = "objects=" + objects.Count + ",fps=" + fps;
         GUI.Label(rectStatus, status);
