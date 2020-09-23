@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +19,9 @@ public class Main : MonoBehaviour
         
     }
 
-    private string[] buttons =
+
+
+private string[] buttons =
     {
         "带宽测试",
         "GPU运算测试",
@@ -32,6 +35,7 @@ public class Main : MonoBehaviour
                 gameObject.AddComponent<BandwidthTest>();
                 break;
             case 1:
+                gameObject.AddComponent<CommandBufferTest>();
                 break;
             case 2:
                 gameObject.AddComponent<CPUTest>();

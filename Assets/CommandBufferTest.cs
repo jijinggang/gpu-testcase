@@ -13,6 +13,11 @@ public class CommandBufferTest : MonoBehaviour
     // public GameObject targetObject = null;
     // public Material replaceMaterial = null;
 
+    void Start()
+    {
+        var quad = Resources.Load<GameObject>("Quad");
+        GameObject.Instantiate(quad);
+    }
     void OnEnable()
     {
         // targetRenderer = targetObject?.GetComponentInChildren<Renderer>();
