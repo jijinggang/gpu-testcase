@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class CommandBufferTest : MonoBehaviour
+public class CommandBufferTest : BaseScript
 {
 
     private CommandBuffer commandBuffer = null;
@@ -50,7 +50,7 @@ public class CommandBufferTest : MonoBehaviour
 
     void Update()
     {
-
+        base.Update();
     }
 
     void OnDisable()
@@ -75,6 +75,7 @@ public class CommandBufferTest : MonoBehaviour
     private int for_count_index = 0;
     void OnGUI()
     {
+        base.OnGUI();
         GUI.skin.button.fontSize = 20;
         GUI.skin.label.fontSize = 20;
         var writeBand = Screen.width * Screen.height * 4f / (1 << 20);

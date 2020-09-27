@@ -3,25 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Main : MonoBehaviour
+public class Main : BaseScript
 {
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 60;
-
-
     }
+
+
 
     // Update is called once per frame
     void Update()
     {
-        
+        base.Update();
     }
 
-
-
-private string[] buttons =
+    private string[] buttons =
     {
         "带宽测试",
         "GPU运算测试",
@@ -46,8 +44,10 @@ private string[] buttons =
 
     void OnGUI()
     {
+        base.OnGUI();
         GUI.skin.button.fontSize = 20;
         GUI.skin.label.fontSize = 20;
+
         var cx = Screen.width;
         var cy = Screen.height;
         var W = 300;
@@ -64,5 +64,6 @@ private string[] buttons =
                 DealWith(i);
             }
         }
+
     }
 }

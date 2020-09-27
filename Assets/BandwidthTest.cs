@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BandwidthTest : MonoBehaviour
+public class BandwidthTest : BaseScript
 {
 
     // Start is called before the first frame update
@@ -31,22 +31,11 @@ public class BandwidthTest : MonoBehaviour
     }
 
 
-    private int fps = 0;
     private List<GameObject> objects = new List<GameObject>();
     // Update is called once per frame
-    float[] deltaTimes = new float[10] ;
-    int deltaIndex = 0;
     void Update()
     {
-        int len = deltaTimes.Length;
-        deltaIndex = (deltaIndex+1) % len;
-        deltaTimes[deltaIndex] = Time.deltaTime;
-
-        var sum = 0f;
-        for (int i = 0; i < len; i++)
-            sum += deltaTimes[i];
-
-        fps = Mathf.RoundToInt(len / sum);
+        base.Update();
     }
 
 
@@ -105,6 +94,7 @@ public class BandwidthTest : MonoBehaviour
 
     void OnGUI()
     {
+        base.OnGUI();
         if (GUI.Button(rectBtnImage, "图片:" + IMAGE_SIZES[image_index]))
         {
             image_index = (image_index + 1) % IMAGE_SIZES.Length;
@@ -129,7 +119,7 @@ public class BandwidthTest : MonoBehaviour
         }
 
 
-        string status = "objects=" + objects.Count + ",fps=" + fps;
+        string status = "objects=" + objects.Count;
         GUI.Label(rectStatus, status);
 
     }

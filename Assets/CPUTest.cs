@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CPUTest : MonoBehaviour
+public class CPUTest : BaseScript
 {
 
     // Start is called before the first frame update
@@ -11,22 +11,9 @@ public class CPUTest : MonoBehaviour
     }
 
 
-    private int fps = 0;
-    // Update is called once per frame
-    float[] deltaTimes = new float[10] ;
-    int deltaIndex = 0;
     void Update()
     {
-        int len = deltaTimes.Length;
-        deltaIndex = (deltaIndex+1) % len;
-        deltaTimes[deltaIndex] = Time.deltaTime;
-
-        var sum = 0f;
-        for (int i = 0; i < len; i++)
-            sum += deltaTimes[i];
-
-        fps = Mathf.RoundToInt(len / sum);
-
+        base.Update();
         cputest();
     }
     int cpu_count = 0;
@@ -48,6 +35,7 @@ public class CPUTest : MonoBehaviour
 
     void OnGUI()
     {
+        base.OnGUI();
         GUI.skin.button.fontSize = 20;
         GUI.skin.label.fontSize = 20;
 
@@ -63,7 +51,7 @@ public class CPUTest : MonoBehaviour
         }
 
 
-        string status = "objects=" + cpu_count + ",fps=" + fps;
+        string status = "objects=" + cpu_count;
         GUI.Label(rectStatus, status);
 
     }
