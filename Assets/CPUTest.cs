@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class CPUTest : BaseScript
@@ -8,15 +9,30 @@ public class CPUTest : BaseScript
     // Start is called before the first frame update
     void Start()
     {
+        for (int i = 0; i < 4; i++) {
+            var start = new ThreadStart(ThreadProc);
+            var t = new Thread(start);
+            t.Start();
+        }
+    }
+
+    void ThreadProc()
+    {
+        while (true)
+        {
+            cputest();
+
+            Thread.Sleep(16);
+        }
     }
 
 
     void Update()
     {
         base.Update();
-        cputest();
+        //cputest();
     }
-    int cpu_count = 0;
+    volatile int cpu_count = 0;
     private void cputest()
     {
             float sum = 0f;
@@ -24,6 +40,7 @@ public class CPUTest : BaseScript
             {
                 sum += Mathf.Log(i);
             }
+        //Debug.Log("1111");
     }
 
 
@@ -51,7 +68,7 @@ public class CPUTest : BaseScript
         }
 
 
-        string status = "objects=" + cpu_count;
+        string status = "objects=4*" + cpu_count;
         GUI.Label(rectStatus, status);
 
     }
