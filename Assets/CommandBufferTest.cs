@@ -9,9 +9,6 @@ public class CommandBufferTest : BaseScript
 
     private CommandBuffer commandBuffer = null;
     public RenderTexture[] renderTextures = null;
-    // private Renderer targetRenderer = null;
-    // public GameObject targetObject = null;
-    // public Material replaceMaterial = null;
 
     void Start()
     {
@@ -20,8 +17,6 @@ public class CommandBufferTest : BaseScript
     }
     void OnEnable()
     {
-        // targetRenderer = targetObject?.GetComponentInChildren<Renderer>();
-        //申请RT
         renderTextures = new RenderTexture[100];
         for (int i = 0; i < 100; i++)
         {
@@ -30,28 +25,31 @@ public class CommandBufferTest : BaseScript
         }
 
         commandBuffer = new CommandBuffer();
-        //设置Command Buffer渲染目标为申请的RT
-        // commandBuffer.SetRenderTarget(renderTexture);
-        //初始颜色设置为灰色
-        // commandBuffer.ClearRenderTarget(true, true, Color.gray);
-        //绘制目标对象，如果没有替换材质，就用自己的材质
-        // Material mat = replaceMaterial == null ? targetRenderer.sharedMaterial : replaceMaterial;
-        // commandBuffer.DrawRenderer(targetRenderer, mat);
-        // //然后接受物体的材质使用这张RT作为主纹理
-        // this.GetComponent<Renderer>().sharedMaterial.mainTexture = renderTexture;
-        for (int j = 0; j < 0; j++)
-        {
-
-            commandBuffer.Blit(BuiltinRenderTextureType.CameraTarget, renderTextures[j]);
-        }
-        //直接加入相机的CommandBuffer事件队列中
         Camera.main.AddCommandBuffer(CameraEvent.AfterImageEffects, commandBuffer);
     }
 
-    void Update()
+    protected override void _Update()
     {
-        base.Update();
+        base._Update();
+
     }
+
+    protected override void OnSecondTick()
+    {
+        // Debug.Log("xxx");
+        if (forAutoIncrease)
+        {
+            forSecond++;
+            Shader.SetGlobalFloat("_LoopCount", forSecond);
+        }
+
+        if (grabAutoIncrease && grabSecond < renderTextures.Length)
+        {
+            grabSecond++;
+            commandBuffer.Blit(BuiltinRenderTextureType.CameraTarget, renderTextures[grabSecond]);
+        }
+    }
+
 
     void OnDisable()
     {
@@ -67,46 +65,28 @@ public class CommandBufferTest : BaseScript
 
     private Rect r1 = new Rect(0, 200, 200, 80);
     private Rect r2 = new Rect(200, 200, 200, 80);
-    int[] Blit_Count = { 0, 1, 2, 4, 10, 100 };
-    int[] For_Count = { 0, 10, 20, 40 };
-    int[] For_Count_KEY = { 0, 100, 1000, 10000 };
+    private bool forAutoIncrease = false;
+    private bool grabAutoIncrease = false;
+    private int forSecond = 0;
+    private int grabSecond = 0;
 
-    private int blit_count_index = 0;
-    private int for_count_index = 0;
-    void OnGUI()
+    protected override void _OnGUI()
     {
-        base.OnGUI();
+        base._OnGUI();
         GUI.skin.button.fontSize = 20;
         GUI.skin.label.fontSize = 20;
         var writeBand = Screen.width * Screen.height * 4f / (1 << 20);
 
-        if (GUI.Button(r1, "For" + For_Count[for_count_index]))
+        if (GUI.Button(r1, "For" + forSecond.ToString()))
         {
-            for_count_index = (for_count_index + 1) % For_Count.Length;
-            for (int j = 0; j < For_Count.Length; j++)
-            {
-                Shader.DisableKeyword("_ALU" + For_Count_KEY[j]);
-            }
-            Shader.EnableKeyword("_ALU" + For_Count_KEY[for_count_index]);
+            forAutoIncrease = !forAutoIncrease;
         }
 
-        if (GUI.Button(r2, "" + writeBand * Blit_Count[blit_count_index] + "MB"))
+        if (GUI.Button(r2, "" + writeBand * grabSecond + "MB"))
         {
-            blit_count_index = (blit_count_index + 1) % Blit_Count.Length;
-
-            commandBuffer.Clear();
-            for (int i = 0; i < Blit_Count[blit_count_index]; i++)
-            {
-                commandBuffer.Blit(BuiltinRenderTextureType.CameraTarget, renderTextures[i]);
-            }
+            grabAutoIncrease = !grabAutoIncrease;
         }
     }
 
-    //也可以在OnPreRender中直接通过Graphics执行Command Buffer，不过OnPreRender和OnPostRender只在挂在相机的脚本上才有作用！！！
-    //void OnPreRender()
-    //{
-    //    //在正式渲染前执行Command Buffer
-    //    Graphics.ExecuteCommandBuffer(commandBuffer);
-    //}
 
 }

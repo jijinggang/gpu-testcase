@@ -11,11 +11,16 @@ public class BaseScript : MonoBehaviour
     float _lastTime = -1f;
     float _frames = 0;
 
+    // protected int second = 0;
 
-    // Update is called once per frame
-    public void Update()
+    void Update()
     {
-        if(_lastTime < 0)
+        _Update();
+    }
+    // Update is called once per frame
+    protected virtual void _Update()
+    {
+        if (_lastTime < 0)
         {
             _lastTime = Time.realtimeSinceStartup;
         }
@@ -27,12 +32,23 @@ public class BaseScript : MonoBehaviour
             fps = Mathf.RoundToInt(_frames / diff);
             _frames = 0;
             _lastTime = now;
+            // Debug.Log("upda");
+            OnSecondTick();
         }
         _frames++;
     }
 
+    protected virtual void OnSecondTick()
+    {
+        // ++second;
+    }
+
     private Rect _rectStatus = new Rect(0, 0, 200, 30);
-    public void OnGUI()
+    void OnGUI()
+    {
+        _OnGUI();
+    }
+    protected virtual void _OnGUI()
     {
         _rectStatus.y = Screen.height - _rectStatus.height;
         GUI.Label(_rectStatus, "fps:" + fps + " power:" + power);

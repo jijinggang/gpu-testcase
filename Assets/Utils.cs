@@ -23,10 +23,13 @@ public class Utils
     //获取实时电流参数
     static public int GetElectricity()
     {
+#if !UNITY_ANDROID
+        return -1;
+#endif
         var active = currActivity;
         if (currActivity == null)
             return -1;
-       
+
         AndroidJavaObject manager = active.Call<AndroidJavaObject>("getSystemService", new object[] { "batterymanager" });
         object[] parm = new object[] { 2 };
         int current = manager.Call<int>("getIntProperty", parm);

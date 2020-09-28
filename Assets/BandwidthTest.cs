@@ -33,16 +33,16 @@ public class BandwidthTest : BaseScript
 
     private List<GameObject> objects = new List<GameObject>();
     // Update is called once per frame
-    void Update()
+    protected override void _Update()
     {
-        base.Update();
+        base._Update();
     }
 
 
-    int[] IMAGE_SIZES = { 256, 512, 1024 ,2048};
-    int[] OUTPUT_SIZES = {128, 256, 512, 1024 };
-    TextureFormat[] IMAGE_FORMATS = { TextureFormat.ARGB4444, TextureFormat.ARGB32, TextureFormat.ASTC_4x4, TextureFormat.ASTC_6x6, TextureFormat.ASTC_8x8 , TextureFormat.ASTC_HDR_8x8};
-    string[] IMAGE_FORMATS_STR = { "ARGB4444","ARGB32", "ASTC_4x4", "ASTC_6x6", "ASTC_8x8","ASTC_HDR_8x8" };
+    int[] IMAGE_SIZES = { 256, 512, 1024, 2048 };
+    int[] OUTPUT_SIZES = { 128, 256, 512, 1024 };
+    TextureFormat[] IMAGE_FORMATS = { TextureFormat.ARGB4444, TextureFormat.ARGB32, TextureFormat.ASTC_4x4, TextureFormat.ASTC_6x6, TextureFormat.ASTC_8x8, TextureFormat.ASTC_HDR_8x8 };
+    string[] IMAGE_FORMATS_STR = { "ARGB4444", "ARGB32", "ASTC_4x4", "ASTC_6x6", "ASTC_8x8", "ASTC_HDR_8x8" };
 
     private void CreateObjects(int imageSize, int outputSize, TextureFormat format)
     {
@@ -63,7 +63,7 @@ public class BandwidthTest : BaseScript
 
             GameObject go = null;
             var texture = new Texture2D(imageSize, imageSize, format, false);
-            if(format == TextureFormat.ARGB32)
+            if (format == TextureFormat.ARGB32)
             {
                 texture.SetPixels32(COLORS);
                 texture.Apply();
@@ -73,8 +73,8 @@ public class BandwidthTest : BaseScript
             var sp = go.GetComponent<SpriteRenderer>();
             Sprite spt = Sprite.Create(texture, new Rect(0, 0, imageSize, imageSize), new Vector2(0.5f, 0.5f));
             sp.sprite = spt;
-            float scale = 1.0f* outputSize / imageSize;
-            sp.transform.localScale = new Vector3(scale, scale, 1);            
+            float scale = 1.0f * outputSize / imageSize;
+            sp.transform.localScale = new Vector3(scale, scale, 1);
 
 
             go.transform.Translate(0, 0, z);
@@ -92,9 +92,9 @@ public class BandwidthTest : BaseScript
         objects.Clear();
     }
 
-    void OnGUI()
+    protected override void _OnGUI()
     {
-        base.OnGUI();
+        base._OnGUI();
         if (GUI.Button(rectBtnImage, "图片:" + IMAGE_SIZES[image_index]))
         {
             image_index = (image_index + 1) % IMAGE_SIZES.Length;

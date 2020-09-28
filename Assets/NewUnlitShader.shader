@@ -20,6 +20,8 @@
 
             #include "UnityCG.cginc"
 
+            float _LoopCount;
+
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -57,13 +59,7 @@
                 // sample the texture
                 // fixed4 col = tex2D(_MainTex, i.uv);
                 float4 c = hash12(i.uv * _ScreenParams.xy + _Time.xy);
-                #if _ALU100
-                for( int k = 0; k < 10; ++k)
-                #elif _ALU1000
-                for( int k = 0; k < 20; ++k)
-                #elif _ALU10000
-                for( int k = 0; k < 40; ++k)
-                #endif
+                for( int k = 0; k < _LoopCount; ++k)
                 {
                     float c2 = hash12(i.uv * _ScreenParams.xy + _Time.xy);
                     float c3 = hash12(i.uv * _ScreenParams.xy + _Time.xx);
@@ -71,13 +67,7 @@
                     c += pow(c, c2);
                     c -= sin(c * c3) * 0.8;
                 }
-                #if _ALU100
-                c /= 10;
-                #elif _ALU1000
-                c /= 20;
-                #elif _ALU10000
-                c /= 40;
-                #endif
+                c /= _LoopCount;
                 c.a = 0.1;
                 // apply fog
                 // UNITY_APPLY_FOG(i.fogCoord, col);

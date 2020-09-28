@@ -14,10 +14,6 @@ public class Main : BaseScript
 
 
     // Update is called once per frame
-    void Update()
-    {
-        base.Update();
-    }
 
     private string[] buttons =
     {
@@ -42,9 +38,9 @@ public class Main : BaseScript
         Destroy(this);
     }
 
-    void OnGUI()
+    protected override void _OnGUI()
     {
-        base.OnGUI();
+        base._OnGUI();
         GUI.skin.button.fontSize = 20;
         GUI.skin.label.fontSize = 20;
 
