@@ -79,12 +79,16 @@ public class CommandBufferTest : BaseScript
 
         if (GUI.Button(r1, "For" + forSecond.ToString()))
         {
-            forAutoIncrease = !forAutoIncrease;
+            // forAutoIncrease = !forAutoIncrease;
+            forSecond++;
+            Shader.SetGlobalFloat("_LoopCount", forSecond);
         }
 
         if (GUI.Button(r2, "" + writeBand * grabSecond + "MB"))
         {
-            grabAutoIncrease = !grabAutoIncrease;
+            // grabAutoIncrease = !grabAutoIncrease;
+            grabSecond++;
+            commandBuffer.Blit(BuiltinRenderTextureType.CameraTarget, renderTextures[grabSecond]);
         }
     }
 
