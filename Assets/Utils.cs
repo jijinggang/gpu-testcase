@@ -40,7 +40,7 @@ public class Utils
         int current = manager.Call<int>("getIntProperty", parm);
         return current;
     }
-
+/*
     struct MemInfo
     {
         public int dalvikPrivateDirty;
@@ -60,8 +60,8 @@ public class Utils
         int TotalSharedClean;
         int TotalSharedDirty;
         int TotalSwappablePss;
-    }
-
+    };
+    */
     static AndroidJavaObject _jo = null;
     static public int GetMemory()
     {

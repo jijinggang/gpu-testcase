@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
+using UnityEngine.Networking;
 
 public class MemTest : BaseScript
 {
@@ -13,7 +15,7 @@ public class MemTest : BaseScript
     void Start()
     {
         BTNS = new Tuple<string, Action>[] {
-            new Tuple<string, Action>("ResourcesLoad100", onResourceLoad),
+            new Tuple<string, Action>("读取文件测试", onReadFile),
             new Tuple<string, Action>("LoadAndInst100", onLoadAndInstantiate),
         };
     }
@@ -27,28 +29,38 @@ public class MemTest : BaseScript
     protected override void _OnGUI()
     {
         base._OnGUI();
-        var rect = new Rect(10, 10, 200, 50);
+        var rect = new Rect(10, 10, 300, 70);
         foreach(var btn in BTNS)
         {
             if (GUI.Button(rect, btn.Item1))
             {
                 btn.Item2();
             }
-            rect.y += 50;
+            rect.y += 70;
         }
         GUI.Label(rect, "imgs:" + imgs.Count);
 
     }
 
-    private LinkedList<Texture2D> imgs = new LinkedList<Texture2D>(); 
-    private void onResourceLoad()
+    private IEnumerator openStreamFile()
     {
-        for (int i = 0; i < 100; i++)
+        string path = Application.streamingAssetsPath + "/1.txt";
+        UnityWebRequest uwr =  UnityWebRequest.Get(path);
+        Debug.Log("read start");
+        yield return uwr.SendWebRequest();
+
+        if (uwr.isHttpError || uwr.isNetworkError)
+            Debug.Log(uwr.error);
+        else
         {
-            var texture = new Texture2D(512, 512, TextureFormat.ARGB32, false);
-            texture.Apply(false, true);
-            imgs.AddLast(texture);
+            Debug.Log(uwr.downloadHandler.data.Length);
         }
+        
+    }
+    private LinkedList<Texture2D> imgs = new LinkedList<Texture2D>(); 
+    private void onReadFile()
+    {
+        StartCoroutine(openStreamFile());
     }
     private void onLoadAndInstantiate()
     {
