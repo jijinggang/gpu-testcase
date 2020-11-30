@@ -19,7 +19,8 @@ public class Main : BaseScript
     {
         "带宽测试",
         "GPU运算测试",
-        "CPU测试"
+        "CPU测试",
+        "Memory测试"
     };
     void DealWith(int sel)
     {
@@ -34,16 +35,22 @@ public class Main : BaseScript
             case 2:
                 gameObject.AddComponent<CPUTest>();
                 break;
+            case 3:
+                gameObject.AddComponent<MemTest>();
+                break;
         }
         Destroy(this);
     }
-
+    bool first = true;
     protected override void _OnGUI()
     {
         base._OnGUI();
-        GUI.skin.button.fontSize = 20;
-        GUI.skin.label.fontSize = 20;
-
+        if (first)
+        {
+            GUI.skin.button.fontSize = 20;
+            GUI.skin.label.fontSize = 20;
+            first = false;
+        }
         var cx = Screen.width;
         var cy = Screen.height;
         var W = 300;

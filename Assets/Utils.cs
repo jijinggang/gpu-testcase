@@ -41,6 +41,27 @@ public class Utils
         return current;
     }
 
+    struct MemInfo
+    {
+        public int dalvikPrivateDirty;
+        public int dalvikPss;
+        public int dalvikSharedDirty;
+        public int nativePrivateDirty;
+        public int nativePss;
+        public int nativeSharedDirty;
+        public int otherPrivateDirty;
+        public int otherPss;
+        public int otherSharedDirty;
+
+
+        int TotalPrivateClean;
+        int TotalPrivateDirty;
+        int TotalPss;
+        int TotalSharedClean;
+        int TotalSharedDirty;
+        int TotalSwappablePss;
+    }
+
     static AndroidJavaObject _jo = null;
     static public int GetMemory()
     {
@@ -54,8 +75,9 @@ public class Utils
         var active = currActivity;
         if (active == null)
             return -1;
-        int mem = _jo.CallStatic<int>("GetMemory", active);
-        return mem;
+        var mem = _jo.CallStatic<AndroidJavaObject>("GetMemInfo", active);
+        return mem.Call<int>("getTotalPss");
+
     }
 
 }
