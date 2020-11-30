@@ -17,7 +17,8 @@ public class BandwidthTest : BaseScript
     private Rect rectBtnOutput = new Rect(440, 0, 200, 80);
 
     private Rect rectBtnCreate = new Rect(700, 0, 80, 80);
-    private Rect rectBtnClear = new Rect(800, 0, 80, 80);
+    private Rect rectBtnCreate1 = new Rect(800, 0, 80, 80);
+    private Rect rectBtnClear = new Rect(900, 0, 80, 80);
     private Rect rectStatus = new Rect(0, 80, 300, 50);
     void Start()
     {
@@ -44,7 +45,7 @@ public class BandwidthTest : BaseScript
     TextureFormat[] IMAGE_FORMATS = { TextureFormat.ARGB4444, TextureFormat.ARGB32, TextureFormat.ASTC_4x4, TextureFormat.ASTC_6x6, TextureFormat.ASTC_8x8, TextureFormat.ASTC_HDR_8x8 };
     string[] IMAGE_FORMATS_STR = { "ARGB4444", "ARGB32", "ASTC_4x4", "ASTC_6x6", "ASTC_8x8", "ASTC_HDR_8x8" };
 
-    private void CreateObjects(int imageSize, int outputSize, TextureFormat format)
+    private void CreateObjects(int imageSize, int outputSize, TextureFormat format, int count = 100)
     {
         var COLORS = new Color32[imageSize * imageSize];
 
@@ -56,7 +57,7 @@ public class BandwidthTest : BaseScript
 
 
         float z = 0f;
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < count; i++)
         {
             COLORS[0].r = (byte)Random.Range(0, 255);
             COLORS[0].g = (byte)Random.Range(0, 255);
@@ -113,6 +114,11 @@ public class BandwidthTest : BaseScript
         {
             CreateObjects(IMAGE_SIZES[image_index], OUTPUT_SIZES[output_index], IMAGE_FORMATS[format_index]);
         }
+        if (GUI.Button(rectBtnCreate1, "Create1"))
+        {
+            CreateObjects(IMAGE_SIZES[image_index], OUTPUT_SIZES[output_index], IMAGE_FORMATS[format_index],1);
+        }
+
         if (GUI.Button(rectBtnClear, "Clear"))
         {
             Clear();

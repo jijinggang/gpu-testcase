@@ -43,7 +43,7 @@ public class BaseScript : MonoBehaviour
         // ++second;
     }
 
-    private Rect _rectStatus = new Rect(0, 0, 200, 30);
+    private Rect _rectStatus = new Rect(0, 0, 300, 30);
     void OnGUI()
     {
         _OnGUI();
@@ -51,6 +51,6 @@ public class BaseScript : MonoBehaviour
     protected virtual void _OnGUI()
     {
         _rectStatus.y = Screen.height - _rectStatus.height;
-        GUI.Label(_rectStatus, "fps:" + fps + " power:" + power);
+        GUI.Label(_rectStatus, "fps:" + fps + " power:" + power + " mem:"+Utils.GetMemory());
     }
 }
