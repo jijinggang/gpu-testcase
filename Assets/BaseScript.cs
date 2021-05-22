@@ -43,7 +43,7 @@ public class BaseScript : MonoBehaviour
         // ++second;
     }
 
-    private Rect _rectStatus = new Rect(0, 0, 300, 30);
+    private Rect _rectStatus = new Rect(100, 0, 300, 30);
     void OnGUI()
     {
         _OnGUI();

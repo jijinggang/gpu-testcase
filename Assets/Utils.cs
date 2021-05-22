@@ -11,6 +11,10 @@ public class Utils
     {
         get
         {
+#if !UNITY_ANDROID || UNITY_EDITOR
+            return null;
+#else
+
 
             if (__currActivity == null)
             {
@@ -18,18 +22,15 @@ public class Utils
                 __currActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
             }
             return __currActivity;
+#endif
         }
     }
     //获取实时电流参数
     static public int GetElectricity()
     {
-#if UNITY_EDITOR
+#if !UNITY_ANDROID || UNITY_EDITOR
         return -1;
-#endif
-
-#if !UNITY_ANDROID
-        return -1;
-#endif
+#else
 
         var active = currActivity;
         if (active == null)
@@ -39,6 +40,7 @@ public class Utils
         object[] parm = new object[] { 2 };
         int current = manager.Call<int>("getIntProperty", parm);
         return current;
+#endif
     }
 /*
     struct MemInfo
@@ -65,9 +67,9 @@ public class Utils
     static AndroidJavaObject _jo = null;
     static public int GetMemory()
     {
-#if UNITY_EDITOR
+#if  !UNITY_ANDROID || UNITY_EDITOR
         return -1;
-#endif
+#else
 
         if(_jo == null)
             _jo = new AndroidJavaObject("com.test.JavaAgent");
@@ -77,7 +79,7 @@ public class Utils
             return -1;
         var mem = _jo.CallStatic<AndroidJavaObject>("GetMemInfo", active);
         return mem.Call<int>("getTotalPss");
-
+#endif
     }
 
 }

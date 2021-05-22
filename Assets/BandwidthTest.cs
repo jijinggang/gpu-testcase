@@ -67,7 +67,7 @@ public class BandwidthTest : BaseScript
             if (format == TextureFormat.ARGB32)
             {
                 texture.SetPixels32(COLORS);
-                texture.Apply();
+                texture.Apply(false,true);
             }
             //texture.SetPixels32(COLORS);
             go = GameObject.Instantiate(prefab512);

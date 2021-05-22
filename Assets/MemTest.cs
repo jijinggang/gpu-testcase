@@ -48,6 +48,7 @@ public class MemTest : BaseScript
 
     }
     List<byte[]> mems = new List<byte[]>();
+    int memsize = 0;
     private void onCreateMem()
     {
         int len = 4 * 1024 * 1024;
@@ -64,14 +65,21 @@ public class MemTest : BaseScript
             mem[i] = (byte)(i % 128);
         return mem;
     }
+    private System.Random r = new System.Random();
+    private int BLOCK = 64;
     private void onCreateSmallMem()
     {
-        for(int i = 0; i < 1024; i++)
+        int total = 0;
+        while(total < 4*1024*1024)
         {
-            mems.Add(createMem(4 * 1024));
+            int sz = r.Next(300, 900);
+            mems.Add(createMem(sz));
+            total += sz;
         }
+        memsize += total;
 
-        status = "create mem:" + mems.Count;
+
+        status = "create mem:" + memsize /1024;
     }
 
     private int fileIndex = 0;
@@ -130,7 +138,7 @@ public class MemTest : BaseScript
     {
         if(_img == null)
             _img = Resources.Load<GameObject>("512");
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 1; i++)
         {
             GameObject.Instantiate(_img);
         }
